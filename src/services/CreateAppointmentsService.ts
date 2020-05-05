@@ -2,14 +2,16 @@ import { startOfHour } from "date-fns";
 import Appointment from "../models/Appointment";
 import AppointmentsRepository from "../repositories/AppointmentsRepository";
 import { getCustomRepository } from 'typeorm';
+import AppError from '../errors/appError';
+
 
 interface Request {
-  provider: string;
+  provider_id: string;
   date: Date;
 }
 
 class CreateAppointmentService {
-  public async execute({ provider, date }: Request): Promise<Appointment> {
+  public async execute({ provider_id, date }: Request): Promise<Appointment> {
     const appointmentsRepository = getCustomRepository(AppointmentsRepository);
 
     const appointmentDate = startOfHour(date);
@@ -17,10 +19,10 @@ class CreateAppointmentService {
     const checkSchedule = await appointmentsRepository.findByDate(appointmentDate);
 
     if (checkSchedule) {
-      throw Error('This appointment is booked');
+      throw new AppError('This appointment is booked');
     }
 
-    const appointment = appointmentsRepository.create({ provider, date: appointmentDate });
+    const appointment = appointmentsRepository.create({ provider_id, date: appointmentDate });
 
     await appointmentsRepository.save(appointment);
 
