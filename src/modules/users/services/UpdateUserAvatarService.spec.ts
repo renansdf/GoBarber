@@ -6,14 +6,18 @@ import FakeStorageProvider from '@shared/container/providers/StorageProviders/fa
 
 import AppError from '@shared/errors/AppError';
 
+let fakeUsersRepo: FakeUsersRepository;
+let fakeStorageProvider: FakeStorageProvider;
+let updateUserAvatarService: UpdateUserAvatarService;
+
 describe('UpdateUserAvatar', () => {
+  beforeEach(() => {
+    fakeUsersRepo = new FakeUsersRepository();
+    fakeStorageProvider = new FakeStorageProvider();
+    updateUserAvatarService = new UpdateUserAvatarService(fakeUsersRepo, fakeStorageProvider);
+  });
 
   it('should be able to update user avatar', async () => {
-    const fakeUsersRepo = new FakeUsersRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
-
-    const updateUserAvatarService = new UpdateUserAvatarService(fakeUsersRepo, fakeStorageProvider);
-
     const user = await fakeUsersRepo.create({
       name: 'John Doe',
       email: 'jonh@doe.com',
@@ -29,24 +33,14 @@ describe('UpdateUserAvatar', () => {
   });
 
   it('should not be able to update avatar with non existing user', async () => {
-    const fakeUsersRepo = new FakeUsersRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
-
-    const updateUserAvatarService = new UpdateUserAvatarService(fakeUsersRepo, fakeStorageProvider);
-
-    expect(updateUserAvatarService.execute({
+    await expect(updateUserAvatarService.execute({
       user_id: 'non-existing-user',
       avatarFilename: 'avatar.jpg'
     })).rejects.toBeInstanceOf(AppError);
   });
 
   it('should be able to delete current avatar when updating to new one', async () => {
-    const fakeUsersRepo = new FakeUsersRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
-
     const deleteFile = jest.spyOn(fakeStorageProvider, 'deleteFile')
-
-    const updateUserAvatarService = new UpdateUserAvatarService(fakeUsersRepo, fakeStorageProvider);
 
     const user = await fakeUsersRepo.create({
       name: 'John Doe',
