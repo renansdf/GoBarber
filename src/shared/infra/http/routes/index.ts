@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { Router } from 'express';
 import appointmentsRouter from '@modules/appointments/infra/http/routes/appointments.routes';
 import providersRouter from '@modules/appointments/infra/http/routes/providers.routes';
