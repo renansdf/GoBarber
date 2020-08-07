@@ -5,3 +5,5 @@ tmp/ *
 .env
 dev.ormconfig.json
 dist/
+.vscode
+coverage/
