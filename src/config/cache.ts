@@ -1,5 +1,15 @@
 import { RedisOptions } from 'ioredis';
-import { Unique } from 'typeorm';
+
+let configPort, configHost, configPassword;
+let url = process.env.REDIS_URL;
+let configUrl = url?.split(':');
+
+if (configUrl) {
+  configPort = configUrl[3];
+  let hostPassword = configUrl[2].split('@');
+  configHost = hostPassword[1];
+  configPassword = hostPassword[0];
+}
 
 interface ICacheConfig {
   driver: 'redis';
@@ -14,10 +24,10 @@ export default {
 
   config: {
     redis: {
-
-      // host: process.env.REDIS_HOST,
-      // port: process.env.REDIS_PORT,
-      // password: process.env.REDIS_PASS || undefined,
+      username: 'h',
+      host: configHost,
+      port: configPort,
+      password: configPassword || undefined,
     },
   },
 } as ICacheConfig;

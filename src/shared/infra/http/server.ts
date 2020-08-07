@@ -39,6 +39,11 @@ app.use((err: Error, request: Request, response: Response, next: NextFunction) =
   });
 });
 
+let url = process.env.REDIS_URL;
+let configArray = url?.split(':');
+console.log(configArray);
+console.log(process.env.REDIS_URL);
+
 app.listen(process.env.PORT || 3333, () => {
   console.log('Servidor iniciado na porta 3333');
 });
