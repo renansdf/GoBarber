@@ -42,7 +42,7 @@ class CreateAppointmentService {
       throw new AppError("You can only schedule between 8am and 17pm");
     }
 
-    const checkSchedule = await this.appointmentsRepository.findByDate(appointmentDate);
+    const checkSchedule = await this.appointmentsRepository.findByDate(appointmentDate, provider_id);
 
     if (checkSchedule) {
       throw new AppError('This appointment is booked');
