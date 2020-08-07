@@ -24,7 +24,6 @@ export default {
 
   config: {
     redis: {
-      username: 'h',
       host: configHost,
       port: configPort,
       password: configPassword || undefined,
