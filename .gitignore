@@ -7,3 +7,4 @@ dev.ormconfig.json
 dist/
 .vscode
 coverage/
+ormconfig.json
