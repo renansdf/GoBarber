@@ -24,6 +24,7 @@
     "useNewUrlParser": true,
     "synchronize": true,
     "logging": true,
+    "useUnifiedTopology": true,
     "entities": [
       "./dist/modules/**/infra/typeorm/schemas/*.js"
     ]
